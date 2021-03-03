@@ -57,6 +57,9 @@ class MyApp extends StatelessWidget {
                     ),
                 SelectSeatPage.ROUTE_NAME: (context) => SelectSeatPage(
                       ticket: ModalRoute.of(context).settings.arguments,
+                    ),
+                CheckoutPage.ROUTE_NAME: (context) => CheckoutPage(
+                      ticket: ModalRoute.of(context).settings.arguments,
                     )
               },
               home: Scaffold(
