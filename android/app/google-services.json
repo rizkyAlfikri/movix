@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "467305748741",
+    "project_id": "alfikri-movix",
+    "storage_bucket": "alfikri-movix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467305748741:android:08dcd00e4384a80e857f6c",
+        "android_client_info": {
+          "package_name": "com.alfikri.rizky.movix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467305748741-gcsph46mfgge03skn7pq1qpltn5aihis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alfikri.rizky.movix",
+            "certificate_hash": "b57af7648ee8e4b03af73523f56292c36b108ac9"
+          }
+        },
+        {
+          "client_id": "467305748741-gtof1hp9fb86nd2p2f02dq5ikvj6e9gg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYEtsw-_3AkqURp8Mxy5AAj72yPcjNJ4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467305748741-gtof1hp9fb86nd2p2f02dq5ikvj6e9gg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,40 @@
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:bubbled_navigation_bar/bubbled_navigation_bar.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
+import 'package:movix/bloc/bloc.dart';
+import 'package:movix/model/model.dart';
+import 'package:movix/services/services.dart';
+import 'package:movix/shared/shared.dart';
+import 'package:movix/ui/shimmer/shimmer.dart';
+import 'package:movix/ui/widgets/widget.dart';
+import 'package:provider/provider.dart';
+// ignore: unused_import
+import 'package:random_string/random_string.dart';
+
+part 'accountconfirmationpage/account_confirmation_page.dart';
+part 'homepage/header_home_widget.dart';
+part 'homepage/home_page.dart';
+part 'homepage/search_home_widget.dart';
+part 'mainpage/main_page.dart';
+part 'moviedetailpage/movie_detail_additional_info.dart';
+part 'moviedetailpage/movie_detail_button_footer.dart';
+part 'moviedetailpage/movie_detail_page.dart';
+part 'moviedetailpage/movie_detail_photo_header.dart';
+part 'preferencepage/preference_page.dart';
+part 'select_schedule_page/select_schedule_page.dart';
+part 'select_schedule_page/select_theater_schedule.dart';
+part 'select_seat_page/select_seat_page.dart';
+part 'sign_in_page.dart';
+part 'signuppage/sign_up_footer_widget.dart';
+part 'signuppage/sign_up_page.dart';
+part 'signuppage/sign_up_picture_profile_widget.dart';
+part 'splash_page.dart';
+part 'wrapper.dart';
