@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:bubbled_navigation_bar/bubbled_navigation_bar.dart';
@@ -10,16 +11,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:movix/bloc/bloc.dart';
+import 'package:movix/extension/extension.dart';
 import 'package:movix/model/model.dart';
 import 'package:movix/services/services.dart';
 import 'package:movix/shared/shared.dart';
 import 'package:movix/ui/shimmer/shimmer.dart';
 import 'package:movix/ui/widgets/widget.dart';
 import 'package:provider/provider.dart';
-// ignore: unused_import
 import 'package:random_string/random_string.dart';
 
 part 'accountconfirmationpage/account_confirmation_page.dart';
+part 'checkout_page/checkout_page.dart';
 part 'homepage/header_home_widget.dart';
 part 'homepage/home_page.dart';
 part 'homepage/search_home_widget.dart';
