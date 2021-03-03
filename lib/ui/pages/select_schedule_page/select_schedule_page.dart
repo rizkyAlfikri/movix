@@ -64,10 +64,17 @@ class _SelectSchedulePageState extends State<SelectSchedulePage> {
     String time,
     UserModel userModel,
   ) {
+    var filteredTime = time.split(':');
     Ticket ticket = Ticket(
       movieDetail: movieDetail,
       theater: Theater(cinemaName: theater, cinemaTime: [time]),
-      time: DateTime(date.year, date.month, date.day),
+      time: DateTime(
+        date.year,
+        date.month,
+        date.day,
+        int.parse(filteredTime.first),
+        int.parse(filteredTime.last),
+      ),
       bookingCode: randomAlphaNumeric(12),
       seats: null,
       name: userModel.name,
