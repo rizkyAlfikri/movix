@@ -6,6 +6,7 @@ class PrimaryButtonWidget extends StatelessWidget {
   final double width;
   final double height;
   final bool isEnable;
+  final Color buttonColor;
 
   PrimaryButtonWidget({
     this.buttonLabel,
@@ -13,15 +14,16 @@ class PrimaryButtonWidget extends StatelessWidget {
     this.width = 100.0,
     this.height = 48.0,
     this.isEnable = true,
+    this.buttonColor = mainColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: mainColor,
+      color: buttonColor,
       elevation: 8,
       shadowColor: (isEnable)
-          ? mainColor.withOpacity(0.25)
+          ? buttonColor.withOpacity(0.25)
           : accentColor4.withOpacity(0.25),
       borderRadius: BorderRadius.circular(4.0),
       child: Container(
@@ -31,13 +33,13 @@ class PrimaryButtonWidget extends StatelessWidget {
         decoration: BoxDecoration(boxShadow: [
           BoxShadow(
               color: (isEnable)
-                  ? mainColor.withOpacity(0.25)
+                  ? buttonColor.withOpacity(0.25)
                   : accentColor4.withOpacity(0.25),
               offset: Offset(3.0, 3.0),
               blurRadius: 4.0)
-        ], borderRadius: BorderRadius.circular(4.0), color: mainColor),
+        ], borderRadius: BorderRadius.circular(4.0), color: buttonColor),
         child: Material(
-          color: (isEnable) ? mainColor : accentColor4,
+          color: (isEnable) ? buttonColor : accentColor4,
           borderRadius: BorderRadius.circular(4.0),
           child: InkWell(
             borderRadius: BorderRadius.circular(4.0),
