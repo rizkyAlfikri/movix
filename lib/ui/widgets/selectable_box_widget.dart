@@ -39,11 +39,7 @@ class SelectableBoxWidget extends StatelessWidget {
                 ? accentColor1
                 : Colors.white,
         child: InkWell(
-          onTap: () {
-            if (onTap != null && isEnabled) {
-              onTap();
-            }
-          },
+          onTap: (onTap != null && isEnabled) ? onTap : null,
           splashColor: (!isEnabled) ? Colors.transparent : Colors.yellowAccent,
           child: Center(
             child: Text(
