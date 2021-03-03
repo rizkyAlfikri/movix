@@ -69,13 +69,16 @@ class CustomAppBar extends StatelessWidget {
             width: getScreenSize(context).width - defaultMargin * 6,
             child: Hero(
               tag: tagTitle,
-              child: Text(
-                _title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.clip,
-                style: blackTextFont.copyWith(
-                    fontWeight: FontWeight.w600, fontSize: 20.0),
+              child: Material(
+                type: MaterialType.transparency,
+                child: Text(
+                  _title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.clip,
+                  style: blackTextFont.copyWith(
+                      fontWeight: FontWeight.w600, fontSize: 20.0),
+                ),
               ),
             ),
           )
