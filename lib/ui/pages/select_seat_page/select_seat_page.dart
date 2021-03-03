@@ -14,6 +14,18 @@ class SelectSeatPage extends StatefulWidget {
 class _SelectSeatPageState extends State<SelectSeatPage> {
   List<String> selectedSeats = [];
 
+  void _movieToCheckoutPage(List<String> seats) {
+    int price = 25000 * seats.length;
+    int fees = 2000 * seats.length;
+    int total = price + fees;
+    Ticket ticket = widget.ticket.copyWith(seats: seats, totalPrice: total);
+    Navigator.of(context).pushNamed(CheckoutPage.ROUTE_NAME, arguments: ticket);
+  }
+
+  void _onTapBackArrowIcon() {
+    Navigator.of(context).pop();
+  }
+
   Widget generateSeatsWidget() {
     List<int> listSeat = [4, 6, 6, 6, 6];
     List<Widget> widgetSeats = [];
@@ -85,14 +97,14 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
       appBar: PreferredSize(
           child: CustomAppBar(
             widget.ticket.movieDetail.title,
-            () {},
+            _onTapBackArrowIcon,
           ),
           preferredSize: Size.fromHeight(72.0)),
       body: Column(
         children: [
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 12.0),
+            margin: EdgeInsets.only(top: 8.0),
             child: Transform(
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.01)
@@ -182,9 +194,13 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
             buttonLabel: 'Create Ticket',
             width: size.width - defaultMargin * 2,
             isEnable: (selectedSeats.isNotEmpty),
-            onTap: () {},
+            onTap: () {
+              _movieToCheckoutPage(selectedSeats);
+            },
           ),
-          Spacer(),
+          SizedBox(
+            height: defaultMargin,
+          ),
         ],
       ),
     );
