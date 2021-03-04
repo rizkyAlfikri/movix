@@ -16,6 +16,8 @@ class _CheckoutPageState extends State<CheckoutPage>
   AnimationController _iconController;
   Animation<double> _animation;
   bool isShowDetail = false;
+  double _imageHeight = 108.0;
+  double _clipSize = 28.0;
 
   @override
   void initState() {
@@ -69,6 +71,8 @@ class _CheckoutPageState extends State<CheckoutPage>
   @override
   Widget build(BuildContext context) {
     var size = getScreenSize(context);
+
+    print('Size ${size.height * 0.182}');
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(72.0),
@@ -81,179 +85,201 @@ class _CheckoutPageState extends State<CheckoutPage>
       backgroundColor: backgroundColor,
       body: ListView(
         children: [
-          Container(
-            margin: EdgeInsets.only(
-              left: defaultMargin,
-              right: defaultMargin,
-              bottom: defaultMargin,
-              top: 8.0,
+          ClipPath(
+            clipper: CheckoutClipper(
+              _imageHeight,
+              0.0,
+              defaultMargin,
+              defaultMargin,
+              _clipSize,
             ),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 4,
-                  offset: Offset(2, 4))
-            ]),
-            child: Column(
-              children: [
-                Image.network(
-                    IMAGE_URL_BASE_PATH +
-                        IMAGE_MEDIUM_SIZE +
-                        widget.ticket.movieDetail.backdropPath,
-                    height: size.height * 0.182,
-                    width: size.width,
-                    fit: BoxFit.fill),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: defaultMargin,
-                      right: defaultMargin,
-                      top: 16.0,
-                      bottom: 8.0),
-                  child: Text(
-                    widget.ticket.movieDetail.title,
+            child: Container(
+              margin: EdgeInsets.only(
+                left: defaultMargin,
+                right: defaultMargin,
+                bottom: defaultMargin,
+              ),
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: Offset(2, 4))
+              ]),
+              child: Column(
+                children: [
+                  Hero(
+                    tag: widget.ticket.movieDetail.id,
+                    child: Image.network(
+                        IMAGE_URL_BASE_PATH +
+                            IMAGE_MEDIUM_SIZE +
+                            widget.ticket.movieDetail.backdropPath,
+                        height: _imageHeight,
+                        width: size.width,
+                        fit: BoxFit.fill),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: defaultMargin,
+                        right: defaultMargin,
+                        top: 16.0,
+                        bottom: 8.0),
+                    child: Text(
+                      widget.ticket.movieDetail.title,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.clip,
+                      style: blackTextFont.copyWith(
+                          fontSize: 18.0, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Text(
+                    widget.ticket.time.dateAndTime,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.clip,
-                    style: blackTextFont.copyWith(
-                        fontSize: 18.0, fontWeight: FontWeight.w600),
+                    style: blackNumberFont.copyWith(
+                      fontSize: 14.0,
+                    ),
                   ),
-                ),
-                Text(
-                  widget.ticket.time.dateAndTime,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.clip,
-                  style: blackNumberFont.copyWith(
-                    fontSize: 14.0,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12.0),
+                    child: Divider(
+                      height: 1.0,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 12.0),
-                  child: Divider(
-                    height: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                _createCheckoutInfo(
-                    label: 'ID Order',
-                    info: widget.ticket.bookingCode,
-                    infoTextStyle: blackNumberFont.copyWith(fontSize: 16.0)),
-                _createCheckoutInfo(
-                    label: 'Theater', info: widget.ticket.theater.cinemaName),
-                AnimatedSwitcher(
-                  duration: Duration(milliseconds: 500),
-                  child: (isShowDetail)
-                      ? Wrap(
-                          children: [
-                            _createCheckoutInfo(
-                                label: 'Seats',
-                                info: widget.ticket.seatsInString),
-                            _createCheckoutInfo(
-                                label: 'Price',
-                                info: 'Rp.25000x${widget.ticket.seats.length}',
-                                infoTextStyle:
-                                    blackNumberFont.copyWith(fontSize: 16.0)),
-                            _createCheckoutInfo(
-                                label: 'Fees',
-                                info: 'Rp.2000x${widget.ticket.seats.length}',
-                                infoTextStyle:
-                                    blackNumberFont.copyWith(fontSize: 16.0)),
-                          ],
-                        )
-                      : SizedBox(),
-                ),
-                _createCheckoutInfo(
-                    label: 'Total',
-                    labelTextStyle: blackTextFont.copyWith(
-                        fontSize: 16.0, fontWeight: FontWeight.bold),
-                    info: 'Rp.${widget.ticket.totalPrice.toString()}',
-                    infoTextStyle: blackNumberFont.copyWith(
-                        fontSize: 16.0, fontWeight: FontWeight.bold)),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, bottom: 12.0),
-                  child: Divider(
-                    height: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                BlocBuilder<UserBloc, UserState>(
-                  builder: (context, userState) {
-                    if (userState is UserLoaded) {
-                      return _createCheckoutInfo(
-                        bottom: 0,
-                        label: 'Saldo Wallet',
-                        labelTextStyle: blackTextFont.copyWith(
-                            color: userState.user.balance >=
-                                    widget.ticket.totalPrice
-                                ? safeColor
-                                : dangernColor,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                        info: 'Rp.${userState.user.balance}',
-                        infoTextStyle: blackNumberFont.copyWith(
-                            color: userState.user.balance >=
-                                    widget.ticket.totalPrice
-                                ? safeColor
-                                : dangernColor,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold),
-                      );
-                    } else {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SimpleShimmer(
-                            width: defaultMargin * 4,
-                          ),
-                          SimpleShimmer(
-                            width: defaultMargin * 6,
+                  _createCheckoutInfo(
+                      label: 'ID Order',
+                      info: widget.ticket.bookingCode,
+                      infoTextStyle: blackNumberFont.copyWith(fontSize: 16.0)),
+                  _createCheckoutInfo(
+                      label: 'Theater', info: widget.ticket.theater.cinemaName),
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 500),
+                    child: (isShowDetail)
+                        ? Wrap(
+                            children: [
+                              _createCheckoutInfo(
+                                  label: 'Seats',
+                                  info: widget.ticket.seatsInString),
+                              _createCheckoutInfo(
+                                  label: 'Price',
+                                  info:
+                                      'IDR 25.000x${widget.ticket.seats.length}',
+                                  infoTextStyle:
+                                      blackNumberFont.copyWith(fontSize: 16.0)),
+                              _createCheckoutInfo(
+                                  label: 'Fees',
+                                  info:
+                                      'IDR 2.000x${widget.ticket.seats.length}',
+                                  infoTextStyle:
+                                      blackNumberFont.copyWith(fontSize: 16.0)),
+                            ],
                           )
-                        ],
-                      );
-                    }
-                  },
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    top: 12.0,
-                    bottom: 12.0,
+                        : SizedBox(),
                   ),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 4,
-                        offset: Offset(0, 5),
+                  _createCheckoutInfo(
+                      label: 'Total',
+                      labelTextStyle: blackTextFont.copyWith(
+                          fontSize: 16.0, fontWeight: FontWeight.bold),
+                      info: NumberFormat.currency(
+                        locale: 'id_ID',
+                        decimalDigits: 0,
+                        symbol: 'IDR ',
+                      ).format(
+                        widget.ticket.totalPrice ?? '0',
                       ),
-                    ],
+                      infoTextStyle: blackNumberFont.copyWith(
+                          fontSize: 16.0, fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 12.0),
+                    child: Divider(
+                      height: 1.0,
+                      color: Colors.grey,
+                    ),
                   ),
-                  child: AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, widget) => Transform.rotate(
-                      angle: _animation.value,
-                      child: GestureDetector(
-                        child: Icon(
-                          Icons.keyboard_arrow_up,
-                          size: 36.0,
+                  BlocBuilder<UserBloc, UserState>(
+                    builder: (context, userState) {
+                      if (userState is UserLoaded) {
+                        return _createCheckoutInfo(
+                          bottom: 0,
+                          label: 'Saldo Wallet',
+                          labelTextStyle: blackTextFont.copyWith(
+                              color: userState.user.balance >=
+                                      widget.ticket.totalPrice
+                                  ? safeColor
+                                  : dangernColor,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                          info: NumberFormat.currency(
+                            locale: 'id_ID',
+                            decimalDigits: 0,
+                            symbol: 'IDR ',
+                          ).format(userState.user.balance ?? '0'),
+                          infoTextStyle: blackNumberFont.copyWith(
+                              color: userState.user.balance >=
+                                      widget.ticket.totalPrice
+                                  ? safeColor
+                                  : dangernColor,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                        );
+                      } else {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SimpleShimmer(
+                              width: defaultMargin * 4,
+                            ),
+                            SimpleShimmer(
+                              width: defaultMargin * 6,
+                            )
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 4,
+                          offset: Offset(0, 5),
                         ),
-                        onTap: () {
-                          if (isShowDetail) {
-                            _iconController.reverse();
-                          } else {
-                            _iconController.forward();
-                          }
+                      ],
+                    ),
+                    child: AnimatedBuilder(
+                      animation: _animation,
+                      builder: (context, widget) => Transform.rotate(
+                        angle: _animation.value,
+                        child: GestureDetector(
+                          child: Icon(
+                            Icons.keyboard_arrow_up,
+                            size: 36.0,
+                          ),
+                          onTap: () {
+                            if (isShowDetail) {
+                              _iconController.reverse();
+                            } else {
+                              _iconController.forward();
+                            }
 
-                          setState(() {
-                            isShowDetail = !isShowDetail;
-                          });
-                        },
+                            setState(() {
+                              isShowDetail = !isShowDetail;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Spacer(),

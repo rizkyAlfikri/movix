@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 
 part 'accountconfirmationpage/account_confirmation_page.dart';
+part 'checkout_page/checkout_clipper.dart';
 part 'checkout_page/checkout_page.dart';
 part 'homepage/header_home_widget.dart';
 part 'homepage/home_page.dart';
