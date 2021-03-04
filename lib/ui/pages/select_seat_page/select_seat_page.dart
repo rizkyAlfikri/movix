@@ -105,18 +105,21 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(top: 8.0),
-            child: Transform(
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.01)
-                ..rotateX(0.6),
-              alignment: FractionalOffset.center,
-              child: Image.network(
-                IMAGE_URL_BASE_PATH +
-                    IMAGE_MEDIUM_SIZE +
-                    widget.ticket.movieDetail.backdropPath,
-                fit: BoxFit.fill,
-                width: size.width * 0.68,
-                height: size.height * 0.13,
+            child: Hero(
+              tag: widget.ticket.movieDetail.id,
+              child: Transform(
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.01)
+                  ..rotateX(0.6),
+                alignment: FractionalOffset.center,
+                child: Image.network(
+                  IMAGE_URL_BASE_PATH +
+                      IMAGE_MEDIUM_SIZE +
+                      widget.ticket.movieDetail.backdropPath,
+                  fit: BoxFit.fill,
+                  width: size.width * 0.68,
+                  height: size.height * 0.13,
+                ),
               ),
             ),
           ),
